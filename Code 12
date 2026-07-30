@@ -1,0 +1,19 @@
+def hill_encrypt(message, key):
+    message = "".join(ch.lower() for ch in message if ch.isalpha())
+    if len(message) % 2 != 0:
+        message += 'x'
+    result = ""
+    for i in range(0, len(message), 2):
+        p1 = ord(message[i]) - ord('a')
+        p2 = ord(message[i + 1]) - ord('a')
+        c1 = (key[0][0] * p1 + key[0][1] * p2) % 26
+        c2 = (key[1][0] * p1 + key[1][1] * p2) % 26
+        result += chr(c1 + ord('a'))
+        result += chr(c2 + ord('a'))
+    return result
+message = "meet me at the usual place at ten rather than eight oclock"
+key = [[9, 4],
+       [5, 7]]
+cipher = hill_encrypt(message, key)
+print("Plain Text :", message)
+print("Cipher Text:", cipher)
