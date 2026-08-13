@@ -1,0 +1,22 @@
+import random
+import string
+freq = "ETAOINSHRDLCUMWFGYPBVKJXQZ"
+def decrypt(cipher, key):
+    table = dict(zip(string.ascii_uppercase, key))
+    return ''.join(table.get(c, c) for c in cipher.upper())
+def score(text):
+    common = ["THE", "AND", "ING", "ION", "TH", "HE", "IN", "ER"]
+    return sum(text.count(x) * len(x) for x in common)
+def attack(cipher, top=10):
+    results = []
+    for _ in range(500):
+        key = list(string.ascii_uppercase)
+        random.shuffle(key)
+        text = decrypt(cipher, key)
+        results.append((score(text), text))
+    results.sort(reverse=True)
+    for i, (s, text) in enumerate(results[:top], 1):
+        print(i, text)
+cipher = input("Enter ciphertext: ")
+top = int(input("Top N: "))
+attack(cipher, top)
