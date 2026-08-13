@@ -1,0 +1,19 @@
+from collections import Counter
+def attack(cipher, n=10):
+    cipher = cipher.lower()
+    freq = Counter(c for c in cipher if c.isalpha())
+    english = "etaoinshrdlucmfwypvbgkjqxz"
+    results = []
+    for shift in range(26):
+        plain = ''.join(
+            chr((ord(c)-97-shift) % 26 + 97) if c.isalpha() else c
+            for c in cipher
+        )
+        score = sum(freq.get(e, 0) for e in english)
+        results.append((score, shift, plain))
+    results.sort(reverse=True)
+    for score, shift, text in results[:n]:
+        print("Shift:", shift, "->", text)
+cipher = input("Enter ciphertext: ")
+n = int(input("Top N: "))
+attack(cipher, n)
