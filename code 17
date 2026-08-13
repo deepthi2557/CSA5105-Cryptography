@@ -1,0 +1,8 @@
+def generate_decryption_keys(encryption_keys):
+    return encryption_keys[::-1]
+keys = [f"K{i}" for i in range(1, 17)]
+decrypt_keys = generate_decryption_keys(keys)
+print("Encryption keys:")
+print(keys)
+print("\nDecryption keys:")
+print(decrypt_keys)
