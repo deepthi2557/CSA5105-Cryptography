@@ -1,0 +1,16 @@
+import string
+def encrypt(text, key):
+    text = text.replace(" ", "").lower()
+    return ''.join(chr((ord(c)-97+k) % 26 + 97)
+                   for c, k in zip(text, key))
+def decrypt(cipher, key):
+    return ''.join(chr((ord(c)-97-k) % 26 + 97)
+                   for c, k in zip(cipher, key))
+p = "sendmoremoney"
+key = [9,0,1,7,23,15,21,14,11,1,12,8,9]
+c = encrypt(p, key)
+print("Ciphertext:", c)
+new_p = "cashnotneeded"
+new_key = [(ord(c)-ord(p[i])) % 26 for i,c in enumerate(new_p)]
+print("New Key:", new_key)
+print("Decrypted:", decrypt(c, new_key))
