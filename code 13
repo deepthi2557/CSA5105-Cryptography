@@ -1,0 +1,11 @@
+import numpy as np
+K = np.array([[3, 3], [2, 5]])
+P = np.array([[7, 8], [8, 4]])      # HI, IE
+C = np.array([[19, 2], [14, 16]])    # TC, OQ
+det = int(round(np.linalg.det(P)))
+det_inv = pow(det % 26, -1, 26)
+P_inv = (det_inv * np.array([[P[1,1], -P[0,1]],
+                             [-P[1,0], P[0,0]]])) % 26
+K_found = (C @ P_inv) % 26
+print("Recovered Key Matrix:")
+print(K_found)                 
