@@ -1,0 +1,11 @@
+freq = "ETAOINSHRDLCUMWFGYPBVKJXQZ"
+text = input("Ciphertext: ").upper()
+top = int(input("Top results: "))
+count = {c: text.count(c) for c in freq}
+order = sorted(count, key=count.get, reverse=True)
+for n in range(top):
+    mapping = dict(zip(order, freq[n:] + freq[:n]))
+    plain = ''.join(
+        mapping.get(c, c) for c in text
+    )
+    print(n + 1, plain)
