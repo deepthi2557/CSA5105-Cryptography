@@ -1,0 +1,14 @@
+def affine(text, a, b):
+    return ''.join(
+        chr((a*(ord(c)-65)+b)%26+65)
+        if c.isalpha() else c for c in text.upper()
+    )
+
+text = input("Plaintext: ")
+a = int(input("a: "))
+b = int(input("b: "))
+
+if __import__('math').gcd(a, 26) != 1:
+    print("Invalid a: encryption is not one-to-one")
+else:
+    print("Ciphertext:", affine(text, a, b))
