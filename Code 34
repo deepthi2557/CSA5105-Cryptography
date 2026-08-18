@@ -1,0 +1,13 @@
+def enc(x, key):
+    return bytes(a ^ b for a, b in zip(x, key))
+key = b"12345678"
+iv  = b"abcdefgh"
+p   = b"ABCDEFGH12345678"
+ecb = enc(p[:8], key)
+print("ECB:", ecb.hex())
+x = bytes(a ^ b for a, b in zip(p[:8], iv))
+cbc = enc(x, key)
+print("CBC:", cbc.hex())
+s = enc(iv, key)
+cfb = bytes(a ^ b for a, b in zip(p[:8], s))
+print("CFB:", cfb.hex())
