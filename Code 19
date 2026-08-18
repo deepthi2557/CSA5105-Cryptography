@@ -1,0 +1,20 @@
+def encrypt(x, key):
+    return x ^ key
+def cbc_encrypt(data, key, iv):
+    result = []
+    previous = iv
+    for block in data:
+        c = encrypt(block ^ previous, key)
+        result.append(c)
+        previous = c
+    return result
+plaintext = [10, 20, 30, 40]
+key = 15
+iv = 5
+ciphertext = cbc_encrypt(plaintext, key, iv)
+print("Plaintext :", plaintext)
+print("Key       :", key)
+print("IV        :", iv)
+print("Ciphertext:", ciphertext)
+print("\nSecurity  : 3DES is stronger than DES")
+print("Performance: DES is faster than 3DES")
