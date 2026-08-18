@@ -1,0 +1,37 @@
+P10=[3,5,2,7,4,10,1,9,8,6]; P8=[6,3,7,4,8,5,10,9]
+IP=[2,6,3,1,4,8,5,7]; IPi=[4,1,3,5,7,2,8,6]
+EP=[4,1,2,3,2,3,4,1]; P4=[2,4,3,1]
+S0=[[1,0,3,2],[3,2,1,0],[0,2,1,3],[3,1,3,2]]
+S1=[[0,1,2,3],[2,0,1,3],[3,0,1,0],[2,1,0,3]]
+def pm(x,t): return ''.join(x[i-1] for i in t)
+def sh(x,n): return x[n:]+x[:n]
+def keys(k):
+    k=pm(k,P10); a,b=k[:5],k[5:]
+    a,b=sh(a,1),sh(b,1); k1=pm(a+b,P8)
+    a,b=sh(a,2),sh(b,2); k2=pm(a+b,P8)
+    return k1,k2
+def sb(x,s):
+    return format(s[int(x[0]+x[3],2)][int(x[1:3],2)],'02b')
+def fk(x,k):
+    l,r=x[:4],x[4:]
+    z=pm(r,EP)
+    z=''.join(str(int(a)^int(b)) for a,b in zip(z,k))
+    z=pm(sb(z[:4],S0)+sb(z[4:],S1),P4)
+    return ''.join(str(int(a)^int(b)) for a,b in zip(l,z))+r
+def sd(x,k):
+    k1,k2=keys(k); x=fk(pm(x,IP),k1)
+    return pm(fk(x[4:]+x[:4],k2),IPi)
+def xor(a,b):
+    return ''.join(str(int(x)^int(y)) for x,y in zip(a,b))
+def ctr(p,k,c):
+    out=''
+    for i in range(0,len(p),8):
+        out+=xor(p[i:i+8],sd(c,k))
+        c=format((int(c,2)+1)%256,'08b')
+    return out
+key="0111111101"
+counter="00000000"
+plain="000000010000001000000100"
+cipher=ctr(plain,key,counter)
+print("Cipher :",cipher)
+print("Decrypt:",ctr(cipher,key,counter))
