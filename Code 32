@@ -1,0 +1,12 @@
+p, q, g = 23, 11, 2
+x = 3                    
+y = pow(g, x, p)         
+m = 7                   
+def sign(m, k):
+    r = pow(g, k, p) % q
+    s = (pow(k, -1, q) * (m + x*r)) % q
+    return r, s
+sig1 = sign(m, 2)
+sig2 = sign(m, 5)
+print("Signature 1:", sig1)
+print("Signature 2:", sig2)
