@@ -1,0 +1,11 @@
+def mac(blocks, key):
+    t = 0
+    for b in blocks:
+        t = b ^ t ^ key
+    return t
+X = 25
+K = 17
+T = mac([X], K)
+forged = mac([X, X ^ T], K)
+print("MAC(X) =", T)
+print("MAC(X || (X XOR T)) =", forged)
