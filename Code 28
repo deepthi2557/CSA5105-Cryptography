@@ -1,0 +1,12 @@
+q = 23
+a = 5
+x = 6       
+y = 15  
+A = pow(a, x, q)
+B = pow(a, y, q)
+key1 = pow(B, x, q)
+key2 = pow(A, y, q)
+print("Alice sends:", A)
+print("Bob sends  :", B)
+print("Alice key  :", key1)
+print("Bob key    :", key2)
