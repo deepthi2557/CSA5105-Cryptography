@@ -1,0 +1,14 @@
+def subkeys(L, bits):
+    Rb = 0x1B if bits == 64 else 0x87
+    mask = (1 << bits) - 1
+    K1 = ((L << 1) & mask)
+    if L & (1 << (bits-1)):
+        K1 ^= Rb
+    K2 = ((K1 << 1) & mask)
+    if K1 & (1 << (bits-1)):
+        K2 ^= Rb
+    return K1, K2
+L = 0x8000000000000000
+K1, K2 = subkeys(L, 64)
+print("K1 =", hex(K1))
+print("K2 =", hex(K2))
