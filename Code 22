@@ -1,0 +1,62 @@
+P10=[3,5,2,7,4,10,1,9,8,6]
+P8=[6,3,7,4,8,5,10,9]
+IP=[2,6,3,1,4,8,5,7]
+IPi=[4,1,3,5,7,2,8,6]
+EP=[4,1,2,3,2,3,4,1]
+P4=[2,4,3,1]
+S0=[[1,0,3,2],[3,2,1,0],[0,2,1,3],[3,1,3,2]]
+S1=[[0,1,2,3],[2,0,1,3],[3,0,1,0],[2,1,0,3]]
+def perm(x,t):
+    return ''.join(x[i-1] for i in t)
+def ls(x,n):
+    return x[n:]+x[:n]
+def keys(k):
+    k=perm(k,P10)
+    a,b=k[:5],k[5:]
+    a,b=ls(a,1),ls(b,1)
+    k1=perm(a+b,P8)
+    a,b=ls(a,2),ls(b,2)
+    k2=perm(a+b,P8)
+    return k1,k2
+def sb(x,s):
+    r=int(x[0]+x[3],2)
+    c=int(x[1:3],2)
+    return format(s[r][c],'02b')
+def fk(x,k):
+    l,r=x[:4],x[4:]
+    e=perm(r,EP)
+    z=''.join(str(int(a)^int(b)) for a,b in zip(e,k))
+    z=perm(sb(z[:4],S0)+sb(z[4:],S1),P4)
+    return ''.join(str(int(a)^int(b)) for a,b in zip(l,z))+r
+def sd_encrypt(x,k):
+    k1,k2=keys(k)
+    x=fk(perm(x,IP),k1)
+    x=x[4:]+x[:4]
+    return perm(fk(x,k2),IPi)
+def sd_decrypt(x,k):
+    k1,k2=keys(k)
+    x=fk(perm(x,IP),k2)
+    x=x[4:]+x[:4]
+    return perm(fk(x,k1),IPi)
+def xor(a,b):
+    return ''.join(str(int(x)^int(y)) for x,y in zip(a,b))
+def cbc_enc(p,k,iv):
+    c=[]
+    for i in range(0,len(p),8):
+        iv=sd_encrypt(xor(p[i:i+8],iv),k)
+        c.append(iv)
+    return ''.join(c)
+def cbc_dec(c,k,iv):
+    p=''
+    for i in range(0,len(c),8):
+        b=c[i:i+8]
+        p+=xor(sd_decrypt(b,k),iv)
+        iv=b
+    return p
+key="0111111101"
+iv="10101010"
+plain="0000000100100011"
+cipher=cbc_enc(plain,key,iv)
+print("Ciphertext:",cipher)
+dec=cbc_dec(cipher,key,iv)
+print("Decrypted  :",dec)
