@@ -1,0 +1,14 @@
+import math
+e, n = 31, 3599
+for p in range(2, int(n**0.5)+1):
+    if n % p == 0:
+        q = n // p
+        break
+phi = (p-1)*(q-1)
+for d in range(1, phi):
+    if (e*d) % phi == 1:
+        break
+print("p =", p)
+print("q =", q)
+print("phi =", phi)
+print("Private key d =", d)
