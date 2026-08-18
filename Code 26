@@ -1,0 +1,10 @@
+p, q = 59, 61
+n = p * q
+e1, d1 = 31, 2131
+e2 = 17
+phi = (p-1)*(q-1)
+d2 = pow(e2, -1, phi)
+print("Old key :", e1, d1)
+print("New key :", e2, d2)
+print("Same n  :", n)
+print("Safe?   : NO")
