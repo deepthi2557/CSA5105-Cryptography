@@ -1,0 +1,14 @@
+import subprocess
+key = "133457799BBCDFF1"
+plain = "0123456789ABCDEF"
+p = subprocess.run([
+    "openssl", "enc", "-des-ecb", "-provider", "legacy",
+    "-K", key, "-nopad"
+], input=bytes.fromhex(plain), capture_output=True)
+cipher = p.stdout.hex().upper()
+print("Ciphertext:", cipher)
+p = subprocess.run([
+    "openssl", "enc", "-des-ecb", "-provider", "legacy",
+    "-K", key, "-nopad", "-d"
+], input=bytes.fromhex(cipher), capture_output=True)
+print("Plaintext :", p.stdout.hex().upper())
