@@ -1,0 +1,9 @@
+n = 3599
+e = 31
+ciphertext = 1234
+for m in range(26):
+    if pow(m, e, n) == ciphertext:
+        print("Plaintext =", chr(65+m))
+        break
+else:
+    print("No match")
