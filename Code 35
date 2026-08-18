@@ -1,0 +1,9 @@
+p = input("Plaintext: ").upper()
+key = list(map(int, input("Key numbers: ").split()))
+c = ""
+for i, ch in enumerate(p):
+    if ch.isalpha():
+        c += chr((ord(ch)-65 + key[i]) % 26 + 65)
+    else:
+        c += ch
+print("Ciphertext:", c)
