@@ -1,0 +1,9 @@
+import math
+n = 3599
+plaintext = 59
+g = math.gcd(plaintext, n)
+print("gcd =", g)
+if g > 1:
+    print("Yes! Factor of n found:", g)
+else:
+    print("No useful information")
