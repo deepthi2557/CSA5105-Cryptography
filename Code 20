@@ -1,0 +1,30 @@
+def enc(x, key):
+    return x ^ key
+def ecb_encrypt(p, key):
+    return [enc(x, key) for x in p]
+def cbc_encrypt(p, key, iv):
+    c = []
+    prev = iv
+    for x in p:
+        y = enc(x ^ prev, key)
+        c.append(y)
+        prev = y
+    return c
+def decrypt_ecb(c, key):
+    return [enc(x, key) for x in c]
+def decrypt_cbc(c, key, iv):
+    p = []
+    prev = iv
+    for x in c:
+        p.append(enc(x, key) ^ prev)
+        prev = x
+    return p
+p = [10, 20, 30, 40]
+key = 7
+iv = 5
+c = ecb_encrypt(p, key)
+c[1] ^= 1
+print("ECB :", decrypt_ecb(c, key))
+c = cbc_encrypt(p, key, iv)
+c[0] ^= 1
+print("CBC :", decrypt_cbc(c, key, iv))
