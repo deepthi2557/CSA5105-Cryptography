@@ -1,0 +1,14 @@
+BLOCK = 8
+def pad(data):
+    n = BLOCK - len(data) % BLOCK
+    if n == 0:
+        n = BLOCK
+    return data + b'\x80' + b'\x00' * (n - 1)
+def unpad(data):
+    i = data.rfind(b'\x80')
+    return data[:i]
+text = b"HELLO"
+p = pad(text)
+print("Original:", text)
+print("Padded  :", p)
+print("Removed :", unpad(p))
